@@ -4,19 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UpdateBatch implements Batch {
+public class UpdatePump extends Pump {
 
     private static final String SQL = "UPDATE customers SET first_name=? WHERE id=?";
 
-    private final PreparedStatement statement;
-    private final int offset;
     private final int size;
 
     private int count;
 
-    public UpdateBatch(Connection conn, int offset, int size) throws SQLException {
-        this.statement = conn.prepareStatement(SQL);
-        this.offset = offset;
+    public UpdatePump(Connection conn, int offset, int size) throws SQLException {
+        super(conn, conn.prepareStatement(SQL), offset);
         this.size = size;
         this.count = offset + size;
     }
@@ -29,6 +26,6 @@ public class UpdateBatch implements Batch {
             statement.setInt(2, i);
             statement.addBatch();
         }
-        return statement.executeBatch().length;
+        return commitBatch();
     }
 }
