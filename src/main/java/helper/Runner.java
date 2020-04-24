@@ -11,7 +11,7 @@ public abstract class Runner {
     protected static final int ID_OFFSET = 2000;
     protected static final int BATCH_SIZE = 10_000;
 
-    protected Monitor monitor = new Monitor(3, SECONDS);
+    protected Monitor monitor = new Monitor(5, SECONDS);
 
     public void run() throws SQLException {
         String url = "jdbc:mysql://192.168.0.32:3306/inventory?rewriteBatchedStatements=true";
